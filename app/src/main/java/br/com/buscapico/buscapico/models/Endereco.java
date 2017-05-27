@@ -1,10 +1,12 @@
 package br.com.buscapico.buscapico.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Allan on 23/05/2017.
  */
 
-public class Endereco {
+public class Endereco implements Serializable{
     private String estado;
     private String cidade;
     private String rua;

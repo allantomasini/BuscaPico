@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Busca Pico</string>
+    <string name="park_list_title">Pistas Mais Próximas</string>
 </resources>

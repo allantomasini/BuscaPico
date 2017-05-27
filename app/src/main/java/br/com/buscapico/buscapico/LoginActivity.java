@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         setActions();
     }
 
-
+    // Encontra as views utilizadas
     private void findViews() {
         etLogin = (EditText) findViewById(R.id.et_login);
         etSenha = (EditText) findViewById(R.id.et_senha);
@@ -31,7 +31,10 @@ public class LoginActivity extends AppCompatActivity {
         mainContent = (View) findViewById(R.id.main_content);
     }
 
+    // Define as ações
     private void setActions() {
+
+        //Define a ação do botão entrar ao clicar
         btEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

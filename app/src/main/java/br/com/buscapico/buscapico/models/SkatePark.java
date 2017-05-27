@@ -1,10 +1,12 @@
 package br.com.buscapico.buscapico.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Allan on 23/05/2017.
  */
 
-public class SkatePark {
+public class SkatePark implements Serializable {
 
     // Nome pelo qual a pista é conhecida
     private String nome;

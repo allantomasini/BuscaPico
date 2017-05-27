@@ -54,14 +54,14 @@ public class SkateParkAdapter extends RecyclerView.Adapter<SkateParkAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String urlCover = skateParks.get(position).getUrl() == null ?
+        String url = skateParks.get(position).getUrl() == null ?
                 "" : skateParks.get(position).getUrl();
         String local = skateParks.get(position).getEndereco().getCidade()+ ", " +
                 skateParks.get(position).getEndereco().getEstado();
 
 
         Picasso.with(context)
-                .load(urlCover)
+                .load(url)
                 .placeholder(R.drawable.default_park)
                 .error(R.drawable.default_park)
                 .into(holder.iviFoto);
