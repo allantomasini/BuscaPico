@@ -7,7 +7,7 @@
     android:background="@color/colorWhite"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="br.com.buscapico.buscapico.MainActivity">
+    tools:context="br.com.buscapico.buscapico.utils.LoginActivity">
 
     <TextView
         android:layout_width="match_parent"
