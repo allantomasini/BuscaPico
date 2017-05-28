@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "415350448710",
+    "firebase_url": "https://busca-pico.firebaseio.com",
+    "project_id": "busca-pico",
+    "storage_bucket": "busca-pico.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415350448710:android:9fd11bddcac7d67f",
+        "android_client_info": {
+          "package_name": "br.com.buscapico.buscapico"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415350448710-nrave0atsmoaem6jh6v1iop5gab510ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnxHXG6MWHn7Dh6tdakv8cXalqfeRpPkc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

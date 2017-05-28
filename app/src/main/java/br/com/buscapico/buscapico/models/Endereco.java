@@ -11,6 +11,8 @@ public class Endereco implements Serializable{
     private String cidade;
     private String rua;
     private String numero;
+    private double latitude;
+    private double longitude;
 
     public Endereco (){
 
@@ -55,13 +57,31 @@ public class Endereco implements Serializable{
         this.numero = numero;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public String toString() {
         return "Endereco{" +
                 "estado='" + estado + '\'' +
                 ", cidade='" + cidade + '\'' +
                 ", rua='" + rua + '\'' +
-                ", numero=" + numero +
+                ", numero='" + numero + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }
