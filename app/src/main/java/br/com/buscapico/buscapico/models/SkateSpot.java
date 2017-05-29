@@ -6,29 +6,31 @@ import java.io.Serializable;
  * Created by Allan on 23/05/2017.
  */
 
-public class SkatePark implements Serializable {
+public class SkateSpot implements Serializable {
 
-    // Nome pelo qual a pista é conhecida
+    // Nome pelo qual o pico é conhecido
     private String nome;
-    // Endereço da pista
+    // Endereço da local
     private Endereco endereco;
-    // Descrição da pista
+    // Descrição da local
     private String descricao;
-    // Nota da pista de 1 a 5
+    // Nota da local de 1 a 5
     private int nota;
-    // Nível de segurança da pista de 1 a 5
+    // Nível de segurança da local de 1 a 5
     private int seguranca;
-    // Nível de conservação da pista de 1 a 5
+    // Nível de conservação da local de 1 a 5
     private int conservacao;
-    // URL da foto da pista
+    // URL da foto do pico
     private String url;
-    //Tipo de pista
+    //Tipo de pico
     private String tipo;
+    //Usuário que adicionou o pico
+    private String usuario;
 
-    public SkatePark() {
+    public SkateSpot() {
     }
 
-    public SkatePark(String nome, Endereco endereco, String descricao, int nota, int conservacao, String url) {
+    public SkateSpot(String nome, Endereco endereco, String descricao, int nota, int conservacao, String url) {
         this.nome = nome;
         this.endereco = endereco;
         this.descricao = descricao;
@@ -93,16 +95,12 @@ public class SkatePark implements Serializable {
         this.seguranca = seguranca;
     }
 
-    @Override
-    public String toString() {
-        return "SkatePark{" +
-                "nome='" + nome + '\'' +
-                ", endereco=" + endereco +
-                ", descricao='" + descricao + '\'' +
-                ", nota=" + nota +
-                ", seguranca=" + seguranca +
-                ", conservacao=" + conservacao +
-                '}';
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public int getConservacao() {
@@ -113,5 +111,18 @@ public class SkatePark implements Serializable {
         this.conservacao = conservacao;
     }
 
-
+    @Override
+    public String toString() {
+        return "SkateSpot{" +
+                "nome='" + nome + '\'' +
+                ", endereco=" + endereco +
+                ", descricao='" + descricao + '\'' +
+                ", nota=" + nota +
+                ", seguranca=" + seguranca +
+                ", conservacao=" + conservacao +
+                ", url='" + url + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", usuario='" + usuario + '\'' +
+                '}';
+    }
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.buscapico.buscapico">.
+    package="br.com.buscapico.buscapico">
+    .
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,8 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SkateParkListActivity" />
-        <activity android:name=".SkateParkDetailActivity"></activity>
+        <activity android:name=".SkateSpotListActivity" />
+        <activity android:name=".SkateSpotDetailActivity" />
+        <activity android:name=".AddSkateSpotActivity"></activity>
     </application>
 
 </manifest>

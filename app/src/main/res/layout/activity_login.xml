@@ -29,6 +29,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/colorPrimary"
+        android:inputType="textEmailAddress"
         android:textColor="@color/colorPrimary"
         android:textColorHighlight="@color/colorAccent" />
 
@@ -46,6 +47,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/colorPrimary"
+        android:inputType="textPassword"
         android:textColor="@color/colorPrimary"
         android:textColorHighlight="@color/colorAccent" />
 

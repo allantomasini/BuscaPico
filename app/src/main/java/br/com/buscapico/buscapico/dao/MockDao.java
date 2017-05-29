@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.buscapico.buscapico.models.Endereco;
-import br.com.buscapico.buscapico.models.SkatePark;
+import br.com.buscapico.buscapico.models.SkateSpot;
 
 /**
  * Created by Allan on 27/05/2017.
@@ -12,12 +12,12 @@ import br.com.buscapico.buscapico.models.SkatePark;
 
 public class MockDao {
 
-    private static List<SkatePark> skateParks;
+    private static List<SkateSpot> skateSpots;
 
     public MockDao() {
     }
 
-    public static List<SkatePark> getSkateParks() {
+    public static List<SkateSpot> getSkateSpots() {
 
         String pistaDoGaucho = "https://i.ytimg.com/vi/EcIjIjt2QAQ/maxresdefault.jpg";
         String pistaDoAtletico = "http://campeonatosdeskate.com.br/wp-content/uploads/2015/12/pista-atletico-281215.jpg";
@@ -25,23 +25,23 @@ public class MockDao {
         String pistaCentral = "http://2.bp.blogspot.com/-wOBujt_ztMo/Tll19PNSYtI/AAAAAAAAEn0/2tkKO-dsY_k/s1600/missionarios%2Bb.JPG";
 
 
-        skateParks = new ArrayList<SkatePark>();
-        skateParks.add(new SkatePark("Pista do Gaúcho", new Endereco("Paraná", "Curitiba", "Praça do Redentor", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoGaucho));
-        skateParks.add(new SkatePark("Pista do Atlético", new Endereco("Paraná", "Curitiba", "Praça Afonso Botelho", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoAtletico));
-        skateParks.add(new SkatePark("Jardim Ambiental", new Endereco("Paraná", "Curitiba", "Rua Schiller", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, jardimAmbiental));
-        skateParks.add(new SkatePark("Pista Central", new Endereco("Paraná", "São José do Pinhais", "Praça dos Missionários", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaCentral));
+        skateSpots = new ArrayList<SkateSpot>();
+        skateSpots.add(new SkateSpot("Pista do Gaúcho", new Endereco("Paraná", "Curitiba", "Praça do Redentor", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoGaucho));
+        skateSpots.add(new SkateSpot("Pista do Atlético", new Endereco("Paraná", "Curitiba", "Praça Afonso Botelho", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoAtletico));
+        skateSpots.add(new SkateSpot("Jardim Ambiental", new Endereco("Paraná", "Curitiba", "Rua Schiller", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, jardimAmbiental));
+        skateSpots.add(new SkateSpot("Pista Central", new Endereco("Paraná", "São José do Pinhais", "Praça dos Missionários", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaCentral));
 
-        skateParks.add(new SkatePark("Pista do Gaúcho", new Endereco("Paraná", "Curitiba", "Praça do Redentor", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoGaucho));
-        skateParks.add(new SkatePark("Pista do Atlético", new Endereco("Paraná", "Curitiba", "Praça Afonso Botelho", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoAtletico));
-        skateParks.add(new SkatePark("Jardim Ambiental", new Endereco("Paraná", "Curitiba", "Rua Schiller", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, jardimAmbiental));
-        skateParks.add(new SkatePark("Pista Central", new Endereco("Paraná", "São José do Pinhais", "Praça dos Missionários", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaCentral));
+        skateSpots.add(new SkateSpot("Pista do Gaúcho", new Endereco("Paraná", "Curitiba", "Praça do Redentor", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoGaucho));
+        skateSpots.add(new SkateSpot("Pista do Atlético", new Endereco("Paraná", "Curitiba", "Praça Afonso Botelho", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoAtletico));
+        skateSpots.add(new SkateSpot("Jardim Ambiental", new Endereco("Paraná", "Curitiba", "Rua Schiller", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, jardimAmbiental));
+        skateSpots.add(new SkateSpot("Pista Central", new Endereco("Paraná", "São José do Pinhais", "Praça dos Missionários", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaCentral));
 
-        skateParks.add(new SkatePark("Pista do Gaúcho", new Endereco("Paraná", "Curitiba", "Praça do Redentor", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoGaucho));
-        skateParks.add(new SkatePark("Pista do Atlético", new Endereco("Paraná", "Curitiba", "Praça Afonso Botelho", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoAtletico));
-        skateParks.add(new SkatePark("Jardim Ambiental", new Endereco("Paraná", "Curitiba", "Rua Schiller", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, jardimAmbiental));
-        skateParks.add(new SkatePark("Pista Central", new Endereco("Paraná", "São José do Pinhais", "Praça dos Missionários", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaCentral));
+        skateSpots.add(new SkateSpot("Pista do Gaúcho", new Endereco("Paraná", "Curitiba", "Praça do Redentor", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoGaucho));
+        skateSpots.add(new SkateSpot("Pista do Atlético", new Endereco("Paraná", "Curitiba", "Praça Afonso Botelho", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaDoAtletico));
+        skateSpots.add(new SkateSpot("Jardim Ambiental", new Endereco("Paraná", "Curitiba", "Rua Schiller", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, jardimAmbiental));
+        skateSpots.add(new SkateSpot("Pista Central", new Endereco("Paraná", "São José do Pinhais", "Praça dos Missionários", "S/N"), "Uma das pistas mais antigas de Curitiba", 5, 5, pistaCentral));
 
 
-        return skateParks;
+        return skateSpots;
     }
 }

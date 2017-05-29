@@ -34,12 +34,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initializeAuth();
-        mAuth.signOut();
+//        mAuth.signOut();
         findViews();
         setActions();
     }
 
-    //Verifica se
+    //Verifica se o usuário está logado ao iniciar o aplicativo
     @Override
     public void onStart() {
         super.onStart();
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //Vai para a tela principal SkateParkList
     private void goToSkateParkList() {
-        Intent intent = new Intent(LoginActivity.this, SkateParkListActivity.class);
+        Intent intent = new Intent(LoginActivity.this, SkateSpotListActivity.class);
         startActivity(intent);
         finish();
     }

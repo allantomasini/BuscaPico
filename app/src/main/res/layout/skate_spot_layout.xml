@@ -49,6 +49,11 @@
                 android:layout_height="wrap_content"
                 android:text="local"
                 android:textSize="16sp" />
+            <TextView
+                android:text="5km"
+                android:id="@+id/tvi_distancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 

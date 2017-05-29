@@ -8,21 +8,21 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import br.com.buscapico.buscapico.models.SkatePark;
+import br.com.buscapico.buscapico.models.SkateSpot;
 
-public class SkateParkDetailActivity extends AppCompatActivity {
+public class SkateSpotDetailActivity extends AppCompatActivity {
 
     private ImageView iviFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_skate_park_detail);
+        setContentView(R.layout.activity_skate_spot_detail);
 
-        SkatePark skatePark = (SkatePark) getIntent().getBundleExtra("extra").getSerializable("skate_park");
+        SkateSpot skateSpot = (SkateSpot) getIntent().getBundleExtra("extra").getSerializable("skate_park");
 
         findViews();
-        setDetail(skatePark);
+        setDetail(skateSpot);
         validateTransitions(iviFoto);
 
 
@@ -32,10 +32,10 @@ public class SkateParkDetailActivity extends AppCompatActivity {
         iviFoto = (ImageView) findViewById(R.id.ivi_foto);
     }
 
-    private void setDetail(SkatePark skatePark) {
-        String url = skatePark.getUrl() == null ?
-                "" : skatePark.getUrl();
-        Picasso.with(SkateParkDetailActivity.this)
+    private void setDetail(SkateSpot skateSpot) {
+        String url = skateSpot.getUrl() == null ?
+                "" : skateSpot.getUrl();
+        Picasso.with(SkateSpotDetailActivity.this)
                 .load(url)
                 .placeholder(R.drawable.default_park)
                 .error(R.drawable.default_park)

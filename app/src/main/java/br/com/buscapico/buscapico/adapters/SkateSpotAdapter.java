@@ -13,20 +13,20 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import br.com.buscapico.buscapico.R;
-import br.com.buscapico.buscapico.models.SkatePark;
+import br.com.buscapico.buscapico.models.SkateSpot;
 
 /**
  * Created by Allan on 23/05/2017.
  */
 
-public class SkateParkAdapter extends RecyclerView.Adapter<SkateParkAdapter.ViewHolder>
+public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.ViewHolder>
         implements View.OnClickListener {
-    private List<SkatePark> skateParks;
+    private List<SkateSpot> skateSpots;
     private View.OnClickListener listener;
     private Context context;
 
-    public SkateParkAdapter(List<SkatePark> skateParks, Context context){
-        this.skateParks = skateParks;
+    public SkateSpotAdapter(List<SkateSpot> skateSpots, Context context){
+        this.skateSpots = skateSpots;
         this.context = context;
         this.listener = listener;
     }
@@ -45,8 +45,8 @@ public class SkateParkAdapter extends RecyclerView.Adapter<SkateParkAdapter.View
             tviLocal = (TextView) v.findViewById(R.id.tvi_local);
         }
     }@Override
-    public SkateParkAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.skate_park_layout, parent, false);
+    public SkateSpotAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.skate_spot_layout, parent, false);
         view.setOnClickListener(this);
         return new ViewHolder(view);
     }
@@ -54,10 +54,10 @@ public class SkateParkAdapter extends RecyclerView.Adapter<SkateParkAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String url = skateParks.get(position).getUrl() == null ?
-                "" : skateParks.get(position).getUrl();
-        String local = skateParks.get(position).getEndereco().getCidade()+ ", " +
-                skateParks.get(position).getEndereco().getEstado();
+        String url = skateSpots.get(position).getUrl() == null ?
+                "" : skateSpots.get(position).getUrl();
+        String local = skateSpots.get(position).getEndereco().getCidade()+ ", " +
+                skateSpots.get(position).getEndereco().getEstado();
 
 
         Picasso.with(context)
@@ -66,15 +66,15 @@ public class SkateParkAdapter extends RecyclerView.Adapter<SkateParkAdapter.View
                 .error(R.drawable.default_park)
                 .into(holder.iviFoto);
 
-        holder.tviNome.setText(skateParks.get(position).getNome());
-        holder.tviTipo.setText(skateParks.get(position).getTipo());
+        holder.tviNome.setText(skateSpots.get(position).getNome());
+        holder.tviTipo.setText(skateSpots.get(position).getTipo());
         holder.tviLocal.setText(local);
 
     }
 
     @Override
     public int getItemCount() {
-        return skateParks.size();
+        return skateSpots.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
