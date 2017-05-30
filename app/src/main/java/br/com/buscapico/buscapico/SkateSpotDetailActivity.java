@@ -33,8 +33,8 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
     }
 
     private void setDetail(SkateSpot skateSpot) {
-        String url = skateSpot.getUrl() == null ?
-                "" : skateSpot.getUrl();
+        String url = skateSpot.getUrlFoto() == null ?
+                "" : skateSpot.getUrlFoto();
         Picasso.with(SkateSpotDetailActivity.this)
                 .load(url)
                 .placeholder(R.drawable.default_park)

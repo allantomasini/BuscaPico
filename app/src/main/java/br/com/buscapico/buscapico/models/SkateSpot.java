@@ -1,5 +1,7 @@
 package br.com.buscapico.buscapico.models;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -15,28 +17,31 @@ public class SkateSpot implements Serializable {
     // Descrição da local
     private String descricao;
     // Nota da local de 1 a 5
-    private int nota;
+    private float nota;
     // Nível de segurança da local de 1 a 5
-    private int seguranca;
+    private float seguranca;
     // Nível de conservação da local de 1 a 5
-    private int conservacao;
-    // URL da foto do pico
-    private String url;
+    private float conservacao;
+    // Foto do pico
+    private Bitmap foto;
+    //UrlFoto
+    private String urlFoto;
     //Tipo de pico
     private String tipo;
     //Usuário que adicionou o pico
     private String usuario;
 
+
     public SkateSpot() {
     }
 
-    public SkateSpot(String nome, Endereco endereco, String descricao, int nota, int conservacao, String url) {
+    public SkateSpot(String nome, Endereco endereco, String descricao, int nota, int conservacao, Bitmap foto) {
         this.nome = nome;
         this.endereco = endereco;
         this.descricao = descricao;
         this.nota = nota;
         this.conservacao = conservacao;
-        this.url = url;
+        this.foto = foto;
     }
 
     public String getTipo() {
@@ -47,12 +52,12 @@ public class SkateSpot implements Serializable {
         this.tipo = tipo;
     }
 
-    public String getUrl() {
-        return url;
+    public Bitmap getFoto() {
+        return foto;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFoto(Bitmap url) {
+        this.foto = foto;
     }
 
     public String getNome() {
@@ -79,19 +84,19 @@ public class SkateSpot implements Serializable {
         this.descricao = descricao;
     }
 
-    public int getNota() {
+    public float getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(float nota) {
         this.nota = nota;
     }
 
-    public int getSeguranca() {
+    public float getSeguranca() {
         return seguranca;
     }
 
-    public void setSeguranca(int seguranca) {
+    public void setSeguranca(float seguranca) {
         this.seguranca = seguranca;
     }
 
@@ -103,11 +108,11 @@ public class SkateSpot implements Serializable {
         this.usuario = usuario;
     }
 
-    public int getConservacao() {
+    public float getConservacao() {
         return conservacao;
     }
 
-    public void setConservacao(int conservacao) {
+    public void setConservacao(float conservacao) {
         this.conservacao = conservacao;
     }
 
@@ -120,9 +125,16 @@ public class SkateSpot implements Serializable {
                 ", nota=" + nota +
                 ", seguranca=" + seguranca +
                 ", conservacao=" + conservacao +
-                ", url='" + url + '\'' +
                 ", tipo='" + tipo + '\'' +
                 ", usuario='" + usuario + '\'' +
                 '}';
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
     }
 }

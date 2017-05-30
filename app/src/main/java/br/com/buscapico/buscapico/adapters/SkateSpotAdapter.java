@@ -54,8 +54,8 @@ public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String url = skateSpots.get(position).getUrl() == null ?
-                "" : skateSpots.get(position).getUrl();
+        String url = skateSpots.get(position).getUrlFoto() == null ?
+                "" : skateSpots.get(position).getUrlFoto();
         String local = skateSpots.get(position).getEndereco().getCidade()+ ", " +
                 skateSpots.get(position).getEndereco().getEstado();
 

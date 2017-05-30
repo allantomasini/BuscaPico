@@ -42,6 +42,27 @@
                 android:textColorHighlight="@color/colorAccent" />
 
             <TextView
+                android:id="@+id/tvi_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Descrição"
+                android:scrollbars="vertical"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/ete_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
                 android:id="@+id/tvi_tipo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,6 +72,25 @@
 
             <EditText
                 android:id="@+id/ete_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="textPassword"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvi_rua"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Rua"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/ete_rua"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
