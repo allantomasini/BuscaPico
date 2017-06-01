@@ -6,6 +6,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -63,15 +66,42 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     private FloatingActionButton fabAddSpotFoto;
     private ProgressBar pbFotoProgress;
     private Uri retornoStorage;
+    private double latitude;
+    private double longitude;
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+    private LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_skate_spot);
-        requestWritePermission();
+        requestPermissions();
         findViews();
         setAction();
+        setLocationManager();
     }
+
 
     // Encontra as views do layout
     private void findViews() {
@@ -93,6 +123,27 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     private void setAction() {
         fabAddSpotFoto.setOnClickListener(this);
         btSalvar.setOnClickListener(this);
+    }
+
+    private void setLocationManager() {
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, WRITE_PERMISSION);
+
+
+        }
+
+        if (ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,
+                    50f, mLocationListener);
+        }
+
     }
 
     // Abre a galeria para o usuário selecionar uma foto
@@ -120,11 +171,12 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     }
 
     // Solicita permissão para gravar arquivos no dispositivo
-    private void requestWritePermission() {
+    private void requestPermissions() {
         if (ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
         }
+
     }
 
 
@@ -150,9 +202,12 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     // Após o upload da foto salva o pico no firebase
     private void saveSpotOnFirebase() {
         Endereco endereco = getEnderecoFromView();
+        endereco.setLatitude(latitude);
+        endereco.setLongitude(longitude);
         SkateSpot skateSpot = getSkateSpotFromView(endereco);
         if (retornoStorage != null) {
             skateSpot.setUrlFoto(retornoStorage.toString());
+
             skateSpotsReference.push().setValue(skateSpot);
             Log.d(TAG, "url storage: " + retornoStorage.toString());
             Toast.makeText(AddSkateSpotActivity.this, "Pico inserido com sucesso!",

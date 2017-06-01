@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import br.com.buscapico.buscapico.R;
 import br.com.buscapico.buscapico.models.SkateSpot;
@@ -39,6 +40,7 @@ public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.View
         TextView tviNome;
         TextView tviTipo;
         TextView tviLocal;
+        TextView tviDistancia;
 
         ViewHolder(View v) {
             super(v);
@@ -46,6 +48,7 @@ public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.View
             tviNome = (TextView) v.findViewById(R.id.tvi_nome);
             tviTipo = (TextView) v.findViewById(R.id.tvi_tipo);
             tviLocal = (TextView) v.findViewById(R.id.tvi_local);
+            tviDistancia = (TextView) v.findViewById(R.id.tvi_distancia);
         }
     }@Override
     public SkateSpotAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,14 +68,14 @@ public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.View
 
         Picasso.with(context)
                 .load(url)
-                .placeholder(R.drawable.default_park)
+                .placeholder(R.drawable.no_image)
                 .error(R.drawable.default_park)
                 .into(holder.iviFoto);
 
         holder.tviNome.setText(skateSpots.get(position).getNome());
         holder.tviTipo.setText(skateSpots.get(position).getTipo());
         holder.tviLocal.setText(local);
-
+        holder.tviDistancia.setText(String.format("%.2f", skateSpots.get(position).getEndereco().getHaversine())+"km");
     }
 
     @Override

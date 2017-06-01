@@ -18,7 +18,7 @@
             android:layout_height="80dp"
             android:layout_margin="4dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_park" />
+            android:src="@drawable/no_image" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:text="local"
                 android:textSize="16sp" />
             <TextView
-                android:text="5km"
+                android:text=""
                 android:id="@+id/tvi_distancia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

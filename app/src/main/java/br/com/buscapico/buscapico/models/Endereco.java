@@ -6,24 +6,33 @@ import java.io.Serializable;
  * Created by Allan on 23/05/2017.
  */
 
-public class Endereco implements Serializable{
+public class Endereco implements Serializable {
     private String estado;
     private String cidade;
     private String rua;
     private String numero;
     private double latitude;
     private double longitude;
+    private double haversine;
 
-    public Endereco (){
+    public Endereco() {
 
     }
-    public Endereco (String estado, String cidade, String rua, String numero){
+
+    public Endereco(String estado, String cidade, String rua, String numero) {
         this.estado = estado;
         this.cidade = cidade;
         this.rua = rua;
         this.numero = numero;
     }
 
+    public double getHaversine() {
+        return haversine;
+    }
+
+    public void setHaversine(double haversine) {
+        this.haversine = haversine;
+    }
 
     public String getEstado() {
         return estado;

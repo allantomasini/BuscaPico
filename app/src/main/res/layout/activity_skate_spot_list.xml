@@ -15,6 +15,8 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:text="Picos Mais Próximos"
             android:textColor="@color/colorWhite" />

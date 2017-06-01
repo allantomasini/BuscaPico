@@ -1,32 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="br.com.buscapico.buscapico.SkateSpotDetailActivity">
-    <ImageView
-        android:id="@+id/ivi_foto"
-        android:src="@drawable/default_park"
-        android:scaleType="centerCrop"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
-    <TextView
-        android:id="@+id/tvi_nome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvi_local"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvi_tipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvi_descricao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivi_foto"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/no_image" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_go_to_pico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="180dp"
+                    android:src="@drawable/ic_go_to_pico" />
+
+                <TextView
+                    android:id="@+id/tvi_pico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivi_foto"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Pico"
+                    android:textColor="@color/colorPrimary" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/ete_pico"
+                android:enabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="text"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvi_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Descrição"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/ete_descricao"
+                android:enabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:scrollbars="vertical"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvi_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Tipo"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/ete_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="text"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvi_rua"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Rua"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/ete_rua"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="text"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvi_cidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Cidade"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/ete_cidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="text"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvi_estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Estado"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/ete_estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                android:backgroundTint="@color/colorPrimary"
+                android:inputType="text"
+                android:textColor="@color/colorPrimary"
+                android:textColorHighlight="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvi_seguranca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Segurança"
+                android:textColor="@color/colorPrimary" />
+
+            <RatingBar
+                android:id="@+id/rb_seguranca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/tvi_conservacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Conservação"
+                android:textColor="@color/colorPrimary" />
+
+            <RatingBar
+                android:id="@+id/rb_conservacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:numStars="5"
+                android:stepSize="0.5" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
