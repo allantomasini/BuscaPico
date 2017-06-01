@@ -15,20 +15,37 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/ivi_foto"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/default_park" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvi_pico"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Pico"
-                android:textColor="@color/colorPrimary" />
+                <ImageView
+                    android:id="@+id/ivi_foto"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/no_image" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_add_spot_foto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="180dp"
+                    android:src="@drawable/ic_add_foto" />
+
+                <TextView
+                    android:id="@+id/tvi_pico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivi_foto"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Pico"
+                    android:textColor="@color/colorPrimary" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/ete_pico"
@@ -37,7 +54,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
 
@@ -47,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Descrição"
-                android:scrollbars="vertical"
                 android:textColor="@color/colorPrimary" />
 
             <EditText
@@ -57,8 +73,10 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
+                android:gravity="top|left"
                 android:inputType="textMultiLine"
                 android:lines="4"
+                android:scrollbars="vertical"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
 
@@ -77,7 +95,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
 
@@ -96,7 +114,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
 
@@ -115,7 +133,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
 
@@ -134,7 +152,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
 
@@ -174,11 +192,19 @@
                 android:numStars="5"
                 android:stepSize="0.5" />
 
+            <ProgressBar
+                android:id="@+id/pb_foto_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progressBackgroundTint="@color/colorPrimary"
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/bt_salvar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/colorAccent"
                 android:text="Salvar"

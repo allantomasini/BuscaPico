@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.View
         this.context = context;
         this.listener = listener;
     }
+
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iviFoto;

@@ -14,10 +14,18 @@ import android.transition.Slide;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.buscapico.buscapico.adapters.SkateSpotAdapter;
-import br.com.buscapico.buscapico.dao.MockDao;
 import br.com.buscapico.buscapico.models.SkateSpot;
 
 public class SkateSpotListActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,20 +35,44 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     private FloatingActionButton fabAddSpot;
     private RecyclerView rviSpots;
 
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference spotsRef = database.getReference("skateSpots");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skate_spot_list);
-        skateSpots = MockDao.getSkateSpots();
+//        skateSpots = MockDao.getSkateSpots();
+        getSkateSpots();
         findViews();
         setActions();
         setRecyclerView();
     }
 
+    private void getSkateSpots() {
+        spotsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                skateSpots = new ArrayList<SkateSpot>();
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+
+                    skateSpots.add(postSnapshot.getValue(SkateSpot.class));
+                    setRecyclerView();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         rviSpots = (RecyclerView) findViewById(R.id.rvi_skate_spot_list);
-        fabAddSpot = (FloatingActionButton) findViewById(R.id.fac_add_skate_spot);
+        fabAddSpot = (FloatingActionButton) findViewById(R.id.fab_add_skate_spot);
     }
 
     private void setActions() {
@@ -51,6 +83,10 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
         rviSpots.setHasFixedSize(true);
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rviSpots.setLayoutManager(mLayoutManager);
+
+        if (skateSpots == null){
+            skateSpots = new ArrayList<SkateSpot>();
+        }
 
         SkateSpotAdapter skateSpotAdapter = new SkateSpotAdapter(skateSpots, SkateSpotListActivity.this);
         skateSpotAdapter.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +137,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.fac_add_skate_spot) {
+        if (i == R.id.fab_add_skate_spot) {
             goToAddSkateSpot(v);
         }
     }

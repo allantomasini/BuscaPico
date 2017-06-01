@@ -6,25 +6,29 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -35,18 +39,17 @@ import java.util.Calendar;
 import br.com.buscapico.buscapico.models.Endereco;
 import br.com.buscapico.buscapico.models.SkateSpot;
 
-import static android.R.attr.type;
-
 public class AddSkateSpotActivity extends AppCompatActivity implements View.OnClickListener {
     //CONSTANTS
     private static final int WRITE_PERMISSION = 0x01;
     private static final String TAG = "AddSkateSpotActivity";
-
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     // FIREBASE REFERENCES
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference imagesRef;
+    private DatabaseReference skateSpotsReference = database.getReference("skateSpots");
 
-
+    // Views
     private ImageView iviFoto;
     private EditText etePico;
     private EditText eteDescricao;
@@ -57,8 +60,10 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     private RatingBar rbSeguranca;
     private RatingBar rbConservacao;
     private Button btSalvar;
-
+    private FloatingActionButton fabAddSpotFoto;
+    private ProgressBar pbFotoProgress;
     private Uri retornoStorage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,7 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         setAction();
     }
 
+    // Encontra as views do layout
     private void findViews() {
         iviFoto = (ImageView) findViewById(R.id.ivi_foto);
         etePico = (EditText) findViewById(R.id.ete_pico);
@@ -79,13 +85,17 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         rbSeguranca = (RatingBar) findViewById(R.id.rb_seguranca);
         rbConservacao = (RatingBar) findViewById(R.id.rb_conservacao);
         btSalvar = (Button) findViewById(R.id.bt_salvar);
+        fabAddSpotFoto = (FloatingActionButton) findViewById(R.id.fab_add_spot_foto);
+        pbFotoProgress = (ProgressBar) findViewById(R.id.pb_foto_progress);
     }
 
+    // Define os listeners das ações
     private void setAction() {
-        iviFoto.setOnClickListener(this);
+        fabAddSpotFoto.setOnClickListener(this);
         btSalvar.setOnClickListener(this);
     }
 
+    // Abre a galeria para o usuário selecionar uma foto
     private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -93,6 +103,7 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         startActivityForResult(Intent.createChooser(intent, "Escolha uma imagem"), 1);
     }
 
+    // Evento executado após o método startActivityForResult, quando o usuário já selecionou a imagem.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -108,17 +119,7 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == WRITE_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "Write Permission Failed");
-                Toast.makeText(this, "You must allow permission write external storage to your mobile device.", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-    }
-
+    // Solicita permissão para gravar arquivos no dispositivo
     private void requestWritePermission() {
         if (ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -126,15 +127,51 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void saveSpot() {
-        String msg;
-        Endereco endereco = new Endereco();
-        SkateSpot skateSpot = new SkateSpot();
 
+    // Exibe mensagem para o usuário caso a permissão para gravar arquivos seja negada
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == WRITE_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "Write Permission Failed");
+                Toast.makeText(this, "Permissão necessária para salvar imagens.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    // Inicia o fluxo para salvar o pico
+    private void saveSpot() {
+        if (validarPreenchimentoForm()) {
+            uploadToStorage();
+        }
+    }
+
+    // Após o upload da foto salva o pico no firebase
+    private void saveSpotOnFirebase() {
+        Endereco endereco = getEnderecoFromView();
+        SkateSpot skateSpot = getSkateSpotFromView(endereco);
+        if (retornoStorage != null) {
+            skateSpot.setUrlFoto(retornoStorage.toString());
+            skateSpotsReference.push().setValue(skateSpot);
+            Log.d(TAG, "url storage: " + retornoStorage.toString());
+            Toast.makeText(AddSkateSpotActivity.this, "Pico inserido com sucesso!",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Recupera os valores do endereco digitados na view
+    private Endereco getEnderecoFromView() {
+        Endereco endereco = new Endereco();
         endereco.setEstado(eteEstado.getText().toString());
         endereco.setCidade(eteCidade.getText().toString());
         endereco.setRua(eteRua.getText().toString());
+        return endereco;
+    }
 
+    // Recupera os valores do pico (skateSpot) digitados na view
+    private SkateSpot getSkateSpotFromView(Endereco endereco) {
+        SkateSpot skateSpot = new SkateSpot();
         skateSpot.setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         skateSpot.setConservacao(rbConservacao.getRating());
         skateSpot.setSeguranca(rbSeguranca.getRating());
@@ -144,16 +181,11 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         skateSpot.setEndereco(endereco);
         skateSpot.setNome(etePico.getText().toString());
         skateSpot.setTipo(eteTipo.getText().toString());
-        Log.d(TAG, skateSpot.toString());
-        uploadToStorage();
-        if(retornoStorage != null){
-
-            Log.d(TAG, "url storage: "+ retornoStorage.toString());
-        }
-
+        return skateSpot;
     }
 
-    private void uploadToStorage(){
+    // Faz o upload da imagem selecionada para o FirebaseStorage
+    private void uploadToStorage() {
         iviFoto.setDrawingCacheEnabled(true);
         iviFoto.buildDrawingCache();
         Bitmap bitmap = iviFoto.getDrawingCache();
@@ -163,28 +195,87 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         Uri downloadUrl = null;
         imagesRef = storage.getReference(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
         UploadTask uploadTask = imagesRef.child(String.valueOf(Calendar.getInstance().getTimeInMillis())).putBytes(data);
+
+        pbFotoProgress.setVisibility(View.VISIBLE);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
+                pbFotoProgress.setVisibility(View.GONE);
+                Toast.makeText(AddSkateSpotActivity.this, "Erro no upload. Verifique sua conexão",
+                        Toast.LENGTH_SHORT).show();
                 retornoStorage = null;
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                pbFotoProgress.setVisibility(View.GONE);
                 @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Toast.makeText(AddSkateSpotActivity.this, "Upload Ok!",
+                        Toast.LENGTH_SHORT).show();
                 retornoStorage = downloadUrl;
+                saveSpotOnFirebase();
             }
         });
     }
 
+    // valida se todos os campos obrigatórios foram preenchidos
+    private boolean validarPreenchimentoForm() {
+        boolean valido = true;
+        String pico = etePico.getText().toString();
+        if (TextUtils.isEmpty(pico)) {
+            etePico.setError("Campo Obrigatório!");
+            valido = false;
+        } else {
+            etePico.setError(null);
+        }
 
+        String tipo = eteTipo.getText().toString();
+        if (TextUtils.isEmpty(tipo)) {
+            eteTipo.setError("Campo Obrigatório!");
+            valido = false;
+        } else {
+            eteTipo.setError(null);
+        }
+        String descricao = eteDescricao.getText().toString();
+        if (TextUtils.isEmpty(descricao)) {
+            eteDescricao.setError("Campo Obrigatório!");
+            valido = false;
+        } else {
+            eteDescricao.setError(null);
+        }
+        String rua = eteRua.getText().toString();
+        if (TextUtils.isEmpty(rua)) {
+            eteRua.setError("Campo Obrigatório!");
+            valido = false;
+        } else {
+            eteRua.setError(null);
+        }
+        String cidade = eteCidade.getText().toString();
+        if (TextUtils.isEmpty(tipo)) {
+            eteCidade.setError("Campo Obrigatório!");
+            valido = false;
+        } else {
+            eteCidade.setError(null);
+        }
+        String estado = eteEstado.getText().toString();
+        if (TextUtils.isEmpty(tipo)) {
+            eteEstado.setError("Campo Obrigatório!");
+            valido = false;
+        } else {
+            eteEstado.setError(null);
+        }
+
+        return valido;
+    }
+
+    // Define as ações para cada evento por id
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.bt_salvar) {
             saveSpot();
         }
-        if (i == R.id.ivi_foto) {
+        if (i == R.id.fab_add_spot_foto) {
             openGallery();
         }
     }
