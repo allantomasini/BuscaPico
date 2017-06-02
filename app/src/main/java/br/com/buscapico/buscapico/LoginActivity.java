@@ -49,10 +49,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
     //Inicializa a instância do FirebaseAuth
     private void initializeAuth() {
         mAuth = FirebaseAuth.getInstance();
+        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    firebaseAuth.signOut();
+                }
+            }
+        });
     }
+
 
     // Encontra as Views
     private void findViews() {

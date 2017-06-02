@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,6 +46,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     private Toolbar toolbar;
     private FloatingActionButton fabAddSpot;
     private RecyclerView rviSpots;
+    private ProgressBar pbLoading;
 
     private double latitude;
     private double longitude;
@@ -74,13 +76,15 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference spotsRef = database.getReference("skateSpots");
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skate_spot_list);
 //        skateSpots = MockDao.getSkateSpots();
-        getSkateSpots();
         findViews();
+        getSkateSpots();
         setActions();
         setRecyclerView();
         setLocationManager();
@@ -107,20 +111,23 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getSkateSpots() {
+
+        pbLoading.setVisibility(View.VISIBLE);
         spotsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 skateSpots = new ArrayList<SkateSpot>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     SkateSpot newSpot = postSnapshot.getValue(SkateSpot.class);
-                    double distancia = calcularDistancia(newSpot.getEndereco().getLatitude()
-                            , newSpot.getEndereco().getLongitude());
+//                    double distancia = calcularDistancia(newSpot.getEndereco().getLatitude()
+//                            , newSpot.getEndereco().getLongitude());
+                    double distancia = distFrom(newSpot.getEndereco().getLatitude(), newSpot.getEndereco().getLongitude(), latitude, longitude);
                     newSpot.getEndereco()
-                            .setHaversine(distancia);
+                            .setHaversine(distancia/1000);
                     skateSpots.add(newSpot);
                     setRecyclerView();
                 }
-                Collections.sort(skateSpots, new Comparator<SkateSpot>(){
+                Collections.sort(skateSpots, new Comparator<SkateSpot>() {
                     public int compare(SkateSpot obj1, SkateSpot obj2) {
                         // ## Ascending order
                         return Double.valueOf(obj1.getEndereco().getHaversine()).compareTo(obj2.getEndereco().getHaversine()); // To compare string values
@@ -131,7 +138,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
                         // return Integer.valueOf(obj2.empId).compareTo(obj1.empId); // To compare integer values
                     }
                 });
-
+                pbLoading.setVisibility(View.GONE);
             }
 
             @Override
@@ -140,25 +147,26 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
-
-    private double calcularDistancia(double lat2, double lon2) {
-        double radius = 6378137;   // approximate Earth radius, *in meters*
-        double lat1 = latitude;
-        double lon1 = longitude;
+    public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 6371; //meters
         double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double dist = (earthRadius * c);
 
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        return radius * c;
+        return dist;
     }
+
+
 
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         rviSpots = (RecyclerView) findViewById(R.id.rvi_skate_spot_list);
         fabAddSpot = (FloatingActionButton) findViewById(R.id.fab_add_skate_spot);
+        pbLoading = (ProgressBar) findViewById(R.id.pb_loading);
     }
 
     private void setActions() {

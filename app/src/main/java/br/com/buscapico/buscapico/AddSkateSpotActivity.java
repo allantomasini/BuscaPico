@@ -184,7 +184,7 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == WRITE_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "Write Permission Failed");
                 Toast.makeText(this, "Permissão necessária para salvar imagens.", Toast.LENGTH_SHORT).show();
                 finish();
