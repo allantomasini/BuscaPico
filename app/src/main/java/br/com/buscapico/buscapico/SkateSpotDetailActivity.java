@@ -3,14 +3,13 @@ package br.com.buscapico.buscapico;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -43,12 +42,9 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
         setActions(skateSpot);
         setDetail(skateSpot);
         validateTransitions(iviFoto);
-
-
-
     }
 
-
+    // Define as views
     private void findViews() {
         iviFoto = (ImageView) findViewById(R.id.ivi_foto);
         etePico = (EditText) findViewById(R.id.ete_pico);
@@ -61,20 +57,22 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
         rbConservacao = (RatingBar) findViewById(R.id.rb_conservacao);
         fabGoToPico = (FloatingActionButton) findViewById(R.id.fab_go_to_pico);
     }
+
+    // Define a ação do botão flutuante que aciona o mapa
     private void setActions(SkateSpot skateSpot) {
         final double latitude = skateSpot.getEndereco().getLatitude();
         final double longitude = skateSpot.getEndereco().getLongitude();
         fabGoToPico.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uri = String.format(Locale.ENGLISH, "geo:%f,%f",latitude , longitude);
+                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 startActivity(intent);
             }
         });
     }
 
-
+    // Define os dados do detalhe
     private void setDetail(SkateSpot skateSpot) {
         String url = skateSpot.getUrlFoto() == null ?
                 "" : skateSpot.getUrlFoto();
@@ -94,6 +92,7 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
         rbConservacao.setRating(skateSpot.getConservacao());
     }
 
+    // Define a transição
     private void validateTransitions(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             view.setTransitionName("view");

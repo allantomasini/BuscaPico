@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Locale;
 
 import br.com.buscapico.buscapico.R;
 import br.com.buscapico.buscapico.models.SkateSpot;
@@ -27,13 +25,54 @@ public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.View
     private View.OnClickListener listener;
     private Context context;
 
-    public SkateSpotAdapter(List<SkateSpot> skateSpots, Context context){
+    public SkateSpotAdapter(List<SkateSpot> skateSpots, Context context) {
         this.skateSpots = skateSpots;
         this.context = context;
         this.listener = listener;
     }
 
+    @Override
+    public SkateSpotAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.skate_spot_layout, parent, false);
+        view.setOnClickListener(this);
+        return new ViewHolder(view);
+    }
 
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+        String url = skateSpots.get(position).getUrlFoto() == null ?
+                "" : skateSpots.get(position).getUrlFoto();
+        String local = skateSpots.get(position).getEndereco().getCidade() + ", " +
+                skateSpots.get(position).getEndereco().getEstado();
+
+
+        Picasso.with(context)
+                .load(url)
+                .placeholder(R.drawable.no_image)
+                .error(R.drawable.default_park)
+                .into(holder.iviFoto);
+
+        holder.tviNome.setText(skateSpots.get(position).getNome());
+        holder.tviTipo.setText(skateSpots.get(position).getTipo());
+        holder.tviLocal.setText(local);
+        holder.tviDistancia.setText(String.format("%.2f", skateSpots.get(position).getEndereco().getHaversine()) + "km");
+    }
+
+    @Override
+    public int getItemCount() {
+        return skateSpots.size();
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (listener != null)
+            listener.onClick(v);
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iviFoto;
@@ -50,46 +89,5 @@ public class SkateSpotAdapter extends RecyclerView.Adapter<SkateSpotAdapter.View
             tviLocal = (TextView) v.findViewById(R.id.tvi_local);
             tviDistancia = (TextView) v.findViewById(R.id.tvi_distancia);
         }
-    }@Override
-    public SkateSpotAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.skate_spot_layout, parent, false);
-        view.setOnClickListener(this);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
-        String url = skateSpots.get(position).getUrlFoto() == null ?
-                "" : skateSpots.get(position).getUrlFoto();
-        String local = skateSpots.get(position).getEndereco().getCidade()+ ", " +
-                skateSpots.get(position).getEndereco().getEstado();
-
-
-        Picasso.with(context)
-                .load(url)
-                .placeholder(R.drawable.no_image)
-                .error(R.drawable.default_park)
-                .into(holder.iviFoto);
-
-        holder.tviNome.setText(skateSpots.get(position).getNome());
-        holder.tviTipo.setText(skateSpots.get(position).getTipo());
-        holder.tviLocal.setText(local);
-        holder.tviDistancia.setText(String.format("%.2f", skateSpots.get(position).getEndereco().getHaversine())+"km");
-    }
-
-    @Override
-    public int getItemCount() {
-        return skateSpots.size();
-    }
-
-    public void setOnClickListener(View.OnClickListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (listener != null)
-            listener.onClick(v);
     }
 }

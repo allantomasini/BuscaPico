@@ -50,12 +50,12 @@
 
             <EditText
                 android:id="@+id/ete_pico"
-                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
+                android:enabled="false"
                 android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
@@ -70,12 +70,12 @@
 
             <EditText
                 android:id="@+id/ete_descricao"
-                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorPrimary"
+                android:enabled="false"
                 android:gravity="top|left"
                 android:inputType="textMultiLine"
                 android:lines="4"
@@ -97,8 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:enabled="false"
                 android:backgroundTint="@color/colorPrimary"
+                android:enabled="false"
                 android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
@@ -117,8 +117,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:enabled="false"
                 android:backgroundTint="@color/colorPrimary"
+                android:enabled="false"
                 android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
@@ -137,8 +137,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:enabled="false"
                 android:backgroundTint="@color/colorPrimary"
+                android:enabled="false"
                 android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
@@ -157,8 +157,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:enabled="false"
                 android:backgroundTint="@color/colorPrimary"
+                android:enabled="false"
                 android:inputType="text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHighlight="@color/colorAccent" />
@@ -194,10 +194,10 @@
                 android:id="@+id/rb_conservacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.5" />
 

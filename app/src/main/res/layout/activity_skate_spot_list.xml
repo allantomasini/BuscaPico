@@ -15,11 +15,11 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:text="Picos Mais Próximos"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -30,6 +30,7 @@
         android:layout_centerInParent="true"
         android:progressBackgroundTint="@color/colorPrimary"
         android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvi_skate_spot_list"
         android:layout_width="match_parent"

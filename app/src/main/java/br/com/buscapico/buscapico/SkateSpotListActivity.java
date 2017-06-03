@@ -50,6 +50,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
 
     private double latitude;
     private double longitude;
+    // Define o listener para a mudança de localização
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
@@ -76,7 +77,19 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference spotsRef = database.getReference("skateSpots");
 
+    // calcular a distância entre dois pontos -NÃO ESTÁ FUNCIONANDO CORRETAMENTE
+    public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 6371; //meters
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double dist = (earthRadius * c);
 
+        return dist;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +103,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
         setLocationManager();
     }
 
+    // Define a configuração do locationManager e solicita permissão para utilizar a localização
     private void setLocationManager() {
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(SkateSpotListActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -110,8 +124,8 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    // Recupera a lista de picos do firebase
     private void getSkateSpots() {
-
         pbLoading.setVisibility(View.VISIBLE);
         spotsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -119,11 +133,9 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
                 skateSpots = new ArrayList<SkateSpot>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     SkateSpot newSpot = postSnapshot.getValue(SkateSpot.class);
-//                    double distancia = calcularDistancia(newSpot.getEndereco().getLatitude()
-//                            , newSpot.getEndereco().getLongitude());
                     double distancia = distFrom(newSpot.getEndereco().getLatitude(), newSpot.getEndereco().getLongitude(), latitude, longitude);
                     newSpot.getEndereco()
-                            .setHaversine(distancia/1000);
+                            .setHaversine(distancia / 1000);
                     skateSpots.add(newSpot);
                     setRecyclerView();
                 }
@@ -131,11 +143,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
                     public int compare(SkateSpot obj1, SkateSpot obj2) {
                         // ## Ascending order
                         return Double.valueOf(obj1.getEndereco().getHaversine()).compareTo(obj2.getEndereco().getHaversine()); // To compare string values
-                        // return Integer.valueOf(obj1.empId).compareTo(obj2.empId); // To compare integer values
 
-                        // ## Descending order
-                        // return obj2.firstName.compareToIgnoreCase(obj1.firstName); // To compare string values
-                        // return Integer.valueOf(obj2.empId).compareTo(obj1.empId); // To compare integer values
                     }
                 });
                 pbLoading.setVisibility(View.GONE);
@@ -147,21 +155,8 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
-    public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
-        double earthRadius = 6371; //meters
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLng = Math.toRadians(lng2 - lng1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double dist = (earthRadius * c);
 
-        return dist;
-    }
-
-
-
+    // Encontra as views
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         rviSpots = (RecyclerView) findViewById(R.id.rvi_skate_spot_list);
@@ -169,10 +164,12 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
         pbLoading = (ProgressBar) findViewById(R.id.pb_loading);
     }
 
+    //Define a ação do botão flutuante
     private void setActions() {
         fabAddSpot.setOnClickListener(this);
     }
 
+    // Define as configurações do Recycler View
     private void setRecyclerView() {
         rviSpots.setHasFixedSize(true);
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -199,6 +196,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     }
 
 
+    // Evento para levar ao detalhe do pico
     private void goToSkateSpotDetail(View view, Bundle bundle) {
         Intent intent = new Intent(SkateSpotListActivity.this, SkateSpotDetailActivity.class);
         if (bundle != null) {
@@ -217,12 +215,14 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    // Evento para levar a tela para adicionar pico
     private void goToAddSkateSpot(View view) {
         Intent intent = new Intent(SkateSpotListActivity.this, AddSkateSpotActivity.class);
         startActivity(intent);
     }
 
 
+    // Define o toolbar
     private void setToolbar() {
         toolbar.setTitle("Pistas Mais Próximas");
         setSupportActionBar(toolbar);

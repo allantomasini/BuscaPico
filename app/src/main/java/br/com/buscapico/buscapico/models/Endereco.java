@@ -19,12 +19,6 @@ public class Endereco implements Serializable {
 
     }
 
-    public Endereco(String estado, String cidade, String rua, String numero) {
-        this.estado = estado;
-        this.cidade = cidade;
-        this.rua = rua;
-        this.numero = numero;
-    }
 
     public double getHaversine() {
         return haversine;
@@ -58,13 +52,6 @@ public class Endereco implements Serializable {
         this.rua = rua;
     }
 
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
 
     public double getLatitude() {
         return latitude;
@@ -88,7 +75,6 @@ public class Endereco implements Serializable {
                 "estado='" + estado + '\'' +
                 ", cidade='" + cidade + '\'' +
                 ", rua='" + rua + '\'' +
-                ", numero='" + numero + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
