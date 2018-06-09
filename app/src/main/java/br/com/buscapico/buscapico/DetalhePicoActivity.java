@@ -15,9 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
-import br.com.buscapico.buscapico.models.SkateSpot;
+import br.com.buscapico.buscapico.models.Pico;
 
-public class SkateSpotDetailActivity extends AppCompatActivity {
+public class DetalhePicoActivity extends AppCompatActivity {
 
     private ImageView iviFoto;
     private EditText etePico;
@@ -30,17 +30,16 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
     private RatingBar rbConservacao;
     private FloatingActionButton fabGoToPico;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_skate_spot_detail);
+        setContentView(R.layout.activity_detalhe_pico);
 
-        SkateSpot skateSpot = (SkateSpot) getIntent().getBundleExtra("extra").getSerializable("skate_park");
+        Pico pico = (Pico) getIntent().getBundleExtra("extra").getSerializable("skate_park");
 
         findViews();
-        setActions(skateSpot);
-        setDetail(skateSpot);
+        setActions(pico);
+        setDetail(pico);
         validateTransitions(iviFoto);
     }
 
@@ -59,9 +58,9 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
     }
 
     // Define a ação do botão flutuante que aciona o mapa
-    private void setActions(SkateSpot skateSpot) {
-        final double latitude = skateSpot.getEndereco().getLatitude();
-        final double longitude = skateSpot.getEndereco().getLongitude();
+    private void setActions(Pico pico) {
+        final double latitude = pico.getEndereco().getLatitude();
+        final double longitude = pico.getEndereco().getLongitude();
         fabGoToPico.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,23 +72,23 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
     }
 
     // Define os dados do detalhe
-    private void setDetail(SkateSpot skateSpot) {
-        String url = skateSpot.getUrlFoto() == null ?
-                "" : skateSpot.getUrlFoto();
-        Picasso.with(SkateSpotDetailActivity.this)
+    private void setDetail(Pico pico) {
+        String url = pico.getUrlFoto() == null ?
+                "" : pico.getUrlFoto();
+        Picasso.with(DetalhePicoActivity.this)
                 .load(url)
                 .placeholder(R.drawable.no_image)
                 .error(R.drawable.default_park)
                 .into(iviFoto);
 
-        etePico.setText(skateSpot.getNome());
-        eteDescricao.setText(skateSpot.getDescricao());
-        eteTipo.setText(skateSpot.getTipo());
-        eteRua.setText(skateSpot.getEndereco().getRua());
-        eteCidade.setText(skateSpot.getEndereco().getCidade());
-        eteEstado.setText(skateSpot.getEndereco().getEstado());
-        rbSeguranca.setRating(skateSpot.getSeguranca());
-        rbConservacao.setRating(skateSpot.getConservacao());
+        etePico.setText(pico.getNome());
+        eteDescricao.setText(pico.getDescricao());
+        eteTipo.setText(pico.getTipo());
+        eteRua.setText(pico.getEndereco().getRua());
+        eteCidade.setText(pico.getEndereco().getCidade());
+        eteEstado.setText(pico.getEndereco().getEstado());
+        rbSeguranca.setRating(pico.getSeguranca());
+        rbConservacao.setRating(pico.getConservacao());
     }
 
     // Define a transição
@@ -98,6 +97,4 @@ public class SkateSpotDetailActivity extends AppCompatActivity {
             view.setTransitionName("view");
         }
     }
-
-
 }

@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".SkateSpotListActivity" />
         <activity android:name=".SkateSpotDetailActivity" />
-        <activity android:name=".AddSkateSpotActivity"></activity>
+        <activity android:name=".AddPicoActivity"></activity>
     </application>
 
 </manifest>

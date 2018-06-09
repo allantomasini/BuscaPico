@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by Allan on 23/05/2017.
  */
 
-public class SkateSpot implements Serializable {
+public class Pico implements Serializable {
 
     // Nome pelo qual o pico é conhecido
     private String nome;
@@ -32,10 +32,10 @@ public class SkateSpot implements Serializable {
     private String usuario;
 
 
-    public SkateSpot() {
+    public Pico() {
     }
 
-    public SkateSpot(String nome, Endereco endereco, String descricao, int nota, int conservacao, Bitmap foto) {
+    public Pico(String nome, Endereco endereco, String descricao, int nota, int conservacao, Bitmap foto) {
         this.nome = nome;
         this.endereco = endereco;
         this.descricao = descricao;

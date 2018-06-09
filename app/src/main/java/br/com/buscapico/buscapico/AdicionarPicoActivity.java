@@ -40,12 +40,12 @@ import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 import br.com.buscapico.buscapico.models.Endereco;
-import br.com.buscapico.buscapico.models.SkateSpot;
+import br.com.buscapico.buscapico.models.Pico;
 
-public class AddSkateSpotActivity extends AppCompatActivity implements View.OnClickListener {
+public class AdicionarPicoActivity extends AppCompatActivity implements View.OnClickListener {
     //CONSTANTS
     private static final int WRITE_PERMISSION = 0x01;
-    private static final String TAG = "AddSkateSpotActivity";
+    private static final String TAG = "AdicionarPicoActivity";
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     // FIREBASE REFERENCES
     private FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -95,7 +95,7 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_skate_spot);
+        setContentView(R.layout.activity_adicionar_pico);
         requestPermissions();
         findViews();
         setAction();
@@ -127,18 +127,18 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
 
     private void setLocationManager() {
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ContextCompat.checkSelfPermission(AdicionarPicoActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                || ContextCompat.checkSelfPermission(AdicionarPicoActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, WRITE_PERMISSION);
 
 
         }
 
-        if (ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ContextCompat.checkSelfPermission(AdicionarPicoActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                && ContextCompat.checkSelfPermission(AdicionarPicoActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,
                     50f, mLocationListener);
@@ -172,7 +172,7 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
 
     // Solicita permissão para gravar arquivos no dispositivo
     private void requestPermissions() {
-        if (ContextCompat.checkSelfPermission(AddSkateSpotActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(AdicionarPicoActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
         }
@@ -204,7 +204,7 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
         Endereco endereco = getEnderecoFromView();
         endereco.setLatitude(latitude);
         endereco.setLongitude(longitude);
-        SkateSpot skateSpot = getSkateSpotFromView(endereco);
+        Pico pico = getSkateSpotFromView(endereco);
         if (retornoStorage != null) {
             skateSpot.setUrlFoto(retornoStorage.toString());
 
@@ -225,18 +225,18 @@ public class AddSkateSpotActivity extends AppCompatActivity implements View.OnCl
     }
 
     // Recupera os valores do pico (skateSpot) digitados na view
-    private SkateSpot getSkateSpotFromView(Endereco endereco) {
-        SkateSpot skateSpot = new SkateSpot();
-        skateSpot.setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        skateSpot.setConservacao(rbConservacao.getRating());
-        skateSpot.setSeguranca(rbSeguranca.getRating());
-        skateSpot.setNota((rbConservacao.getRating() + rbSeguranca.getRating()) / 2);
-        skateSpot.setDescricao(eteDescricao.getText().toString());
+    private Pico getSkateSpotFromView(Endereco endereco) {
+        Pico pico = new Pico();
+        pico.setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        pico.setConservacao(rbConservacao.getRating());
+        pico.setSeguranca(rbSeguranca.getRating());
+        pico.setNota((rbConservacao.getRating() + rbSeguranca.getRating()) / 2);
+        pico.setDescricao(eteDescricao.getText().toString());
 
-        skateSpot.setEndereco(endereco);
-        skateSpot.setNome(etePico.getText().toString());
-        skateSpot.setTipo(eteTipo.getText().toString());
-        return skateSpot;
+        pico.setEndereco(endereco);
+        pico.setNome(etePico.getText().toString());
+        pico.setTipo(eteTipo.getText().toString());
+        return pico;
     }
 
     // Faz o upload da imagem selecionada para o FirebaseStorage

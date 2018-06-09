@@ -33,16 +33,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import br.com.buscapico.buscapico.adapters.SkateSpotAdapter;
-import br.com.buscapico.buscapico.models.SkateSpot;
+import br.com.buscapico.buscapico.adapters.PicoAdapter;
+import br.com.buscapico.buscapico.models.Pico;
 
-public class SkateSpotListActivity extends AppCompatActivity implements View.OnClickListener {
+public class ListaPicosActivity extends AppCompatActivity implements View.OnClickListener {
     //CONSTANTS
     private static final int WRITE_PERMISSION = 0x01;
     private static final String TAG = "SkateParksAct";
 
-
-    private List<SkateSpot> skateSpots;
+    private List<Pico> skateSpots;
     private Toolbar toolbar;
     private FloatingActionButton fabAddSpot;
     private RecyclerView rviSpots;
@@ -94,7 +93,7 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_skate_spot_list);
+        setContentView(R.layout.activity_lista_pico);
 //        skateSpots = MockDao.getSkateSpots();
         findViews();
         getSkateSpots();
@@ -106,18 +105,18 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
     // Define a configuração do locationManager e solicita permissão para utilizar a localização
     private void setLocationManager() {
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ContextCompat.checkSelfPermission(SkateSpotListActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ContextCompat.checkSelfPermission(ListaPicosActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(SkateSpotListActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                || ContextCompat.checkSelfPermission(ListaPicosActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, WRITE_PERMISSION);
 
 
         }
 
-        if (ContextCompat.checkSelfPermission(SkateSpotListActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ContextCompat.checkSelfPermission(ListaPicosActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(SkateSpotListActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                && ContextCompat.checkSelfPermission(ListaPicosActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,
                     50f, mLocationListener);
@@ -130,17 +129,17 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
         spotsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                skateSpots = new ArrayList<SkateSpot>();
+                skateSpots = new ArrayList<Pico>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    SkateSpot newSpot = postSnapshot.getValue(SkateSpot.class);
+                    Pico newSpot = postSnapshot.getValue(Pico.class);
                     double distancia = distFrom(newSpot.getEndereco().getLatitude(), newSpot.getEndereco().getLongitude(), latitude, longitude);
                     newSpot.getEndereco()
                             .setHaversine(distancia / 1000);
                     skateSpots.add(newSpot);
                     setRecyclerView();
                 }
-                Collections.sort(skateSpots, new Comparator<SkateSpot>() {
-                    public int compare(SkateSpot obj1, SkateSpot obj2) {
+                Collections.sort(skateSpots, new Comparator<Pico>() {
+                    public int compare(Pico obj1, Pico obj2) {
                         // ## Ascending order
                         return Double.valueOf(obj1.getEndereco().getHaversine()).compareTo(obj2.getEndereco().getHaversine()); // To compare string values
 
@@ -176,11 +175,11 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
         rviSpots.setLayoutManager(mLayoutManager);
 
         if (skateSpots == null) {
-            skateSpots = new ArrayList<SkateSpot>();
+            skateSpots = new ArrayList<Pico>();
         }
 
-        SkateSpotAdapter skateSpotAdapter = new SkateSpotAdapter(skateSpots, SkateSpotListActivity.this);
-        skateSpotAdapter.setOnClickListener(new View.OnClickListener() {
+        PicoAdapter picoAdapter = new PicoAdapter(skateSpots, ListaPicosActivity.this);
+        picoAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = rviSpots.getChildLayoutPosition(view);
@@ -191,14 +190,14 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        rviSpots.setAdapter(skateSpotAdapter);
+        rviSpots.setAdapter(picoAdapter);
         rviSpots.setItemAnimator(new DefaultItemAnimator());
     }
 
 
     // Evento para levar ao detalhe do pico
     private void goToSkateSpotDetail(View view, Bundle bundle) {
-        Intent intent = new Intent(SkateSpotListActivity.this, SkateSpotDetailActivity.class);
+        Intent intent = new Intent(ListaPicosActivity.this, DetalhePicoActivity.class);
         if (bundle != null) {
             intent.putExtra("extra", bundle);
         }
@@ -217,10 +216,9 @@ public class SkateSpotListActivity extends AppCompatActivity implements View.OnC
 
     // Evento para levar a tela para adicionar pico
     private void goToAddSkateSpot(View view) {
-        Intent intent = new Intent(SkateSpotListActivity.this, AddSkateSpotActivity.class);
+        Intent intent = new Intent(ListaPicosActivity.this, AdicionarPicoActivity.class);
         startActivity(intent);
     }
-
 
     // Define o toolbar
     private void setToolbar() {
